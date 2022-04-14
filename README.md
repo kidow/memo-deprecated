@@ -1,31 +1,9 @@
-# Create React App
+# Subdomain Project - Memo
 
-This directory is a brief example of a [Create React App](https://github.com/facebook/create-react-app) site that can be deployed to Vercel with zero configuration.
+아무 메모나 자유롭게 적을 수 있는 싱글 페이지입니다.
 
-## Deploy Your Own
+일을 하다가 머릿 속에 떠오르는 생각들을 정리할 수 있습니다.
 
-Deploy your own Create React App project with Vercel.
+회의를 하면서 회의 내용을 받아 적는데도 사용할 수도 있습니다.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/vercel/tree/main/examples/create-react-app&template=create-react-app)
-
-_Live Example: https://create-react-template.vercel.app/_
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes. You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.
-
-It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes.
+**LocalStorage**를 사용했기 때문에, 창을 닫아도 메모 내용이 사라지지 않습니다. 하지만, 다른 기기에서 내용을 불러올 수 없습니다.
