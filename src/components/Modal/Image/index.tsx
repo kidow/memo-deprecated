@@ -22,15 +22,7 @@ const ImageModal: FC<Props> = ({ isOpen, onClose }) => {
       }
     >
       <div className="space-y-8">
-        <label>
-          <span className="block">파일 선택</span>
-          <input
-            className="cursor-pointer"
-            type="file"
-            accept="image/*"
-            multiple
-          />
-        </label>
+        <input className="cursor-pointer" type="file" accept="image/*" />
         <Input
           value={url}
           name="url"

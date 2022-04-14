@@ -84,16 +84,15 @@ const App: FC = () => {
   }
 
   const Heading1 = () => {
-    // const selection = document.getSelection()
-    // if (!selection) return
-    // for (let i = selection.rangeCount; i--; ) {
-    //   const wrapper = htmlToDom('<h1/>')
-    //   console.log(wrapper)
-    //   const range = selection.getRangeAt(i)
-    //   wrapper.appendChild(range.extractContents())
-    //   range.insertNode(wrapper)
-    // }
-    document.execCommand('formatBlock', false, 'h1')
+    const selection = document.getSelection()
+    if (!selection) return
+    for (let i = selection.rangeCount; i--; ) {
+      const wrapper = htmlToDom('<h1/>')
+      const range = selection.getRangeAt(i)
+      wrapper.appendChild(range.extractContents())
+      range.insertNode(wrapper)
+    }
+    // document.execCommand('formatBlock', false, 'h1')
   }
 
   const Heading2 = () => {
@@ -168,7 +167,7 @@ const App: FC = () => {
       if (e.code === 'Digit6') OrderedList()
       if (e.code === 'KeyQ') Blockquote()
       if (e.code === 'KeyL') setState({ isLinkOpen: !isLinkOpen })
-      if (e.code === 'KeyM') setState({ isImageOpen: isImageOpen })
+      if (e.code === 'KeyM') setState({ isImageOpen: !isImageOpen })
       if (e.code === 'KeyV') setState({ isVideoOpen: !isVideoOpen })
       if (e.code === 'KeyD') Code()
       if (e.code === 'KeyH') setState({ isHelpOpen: !isHelpOpen })
