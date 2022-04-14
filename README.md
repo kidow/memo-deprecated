@@ -1,5 +1,7 @@
 # Subdomain Project - Memo
 
+[https://memo.kidow.me](https://memo.kidow.me)
+
 아무 메모나 자유롭게 적을 수 있는 싱글 페이지입니다.
 
 일을 하다가 머릿 속에 떠오르는 생각들을 정리할 수 있습니다.
