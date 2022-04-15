@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useMemo } from 'react'
 import type { FC, ChangeEvent } from 'react'
 import { Icon, Modal, Tooltip } from 'components'
 import { useObjectState } from 'services'
@@ -12,6 +12,26 @@ function debounce(func: Function, wait: number) {
       func.apply(this, args)
     }, wait)
   }
+}
+
+enum HOT_KEY {
+  'Digit1' = 'Heading1',
+  'Digit2' = 'Heading2',
+  'Digit3' = 'Heading3',
+  'Digit4' = 'Heading4',
+  'KeyB' = 'Bold',
+  'KeyI' = 'Italic',
+  'KeyU' = 'Underline',
+  'KeyS' = 'StrikeThrough',
+  'KeyC' = 'Clear',
+  'Digit5' = 'UnorderedList',
+  'Digit6' = 'OrderedList',
+  'KeyQ' = 'Blockquote',
+  'KeyL' = 'Link',
+  'KeyM' = 'Image',
+  'KeyV' = 'Video',
+  'KeyD' = 'Code',
+  'KeyH' = 'Help'
 }
 
 type Theme = 'light' | 'dark'
@@ -95,6 +115,11 @@ const App: FC = () => {
     // document.execCommand('formatBlock', false, 'h1')
   }
 
+  const hotKeys: string[] = useMemo(
+    () => Object.entries(HOT_KEY).map(([name]) => name),
+    []
+  )
+
   const Heading2 = () => {
     document.execCommand('formatBlock', false, 'h2')
   }
@@ -153,7 +178,9 @@ const App: FC = () => {
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (!e.ctrlKey || e.code === 'ControlLeft') return
-      e.preventDefault()
+
+      if (hotKeys.indexOf(e.code) !== -1) e.preventDefault()
+
       if (e.code === 'Digit1') Heading1()
       if (e.code === 'Digit2') Heading2()
       if (e.code === 'Digit3') Heading3()
