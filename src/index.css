@@ -20,12 +20,12 @@
     @apply sticky top-0 flex w-screen gap-2 overflow-auto duration-150 scrollbar-hide sm:w-auto sm:flex-wrap;
   }
   .toolbar ul {
-    @apply flex duration-150;
+    @apply flex;
   }
   .toolbar button {
-    @apply p-2 duration-150;
+    @apply p-2;
   }
   .toolbar svg {
-    @apply fill-neutral-700 duration-150 dark:fill-neutral-200;
+    @apply fill-neutral-700 dark:fill-neutral-200;
   }
 }
