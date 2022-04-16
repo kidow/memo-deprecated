@@ -402,7 +402,7 @@ const App: FC = () => {
       </div>
 
       <a
-        href="https://github.com/kidow"
+        href="https://github.com/kidow/memo"
         rel="noreferrer"
         className="fixed top-2 right-2 hidden sm:inline-block"
         target="_blank"
