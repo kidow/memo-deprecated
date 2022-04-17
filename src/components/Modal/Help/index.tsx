@@ -7,7 +7,8 @@ const HelpModal: FC<Props> = ({ isOpen, onClose }) => {
   if (!isOpen) return null
   return (
     <Modal title="도움말" isOpen={isOpen} onClose={onClose}>
-      <ul className="list-inside list-disc text-sm">
+      <img src="/kidow-memo.png" alt="" className="h-7" />
+      <ul className="mt-4 list-inside list-disc text-sm">
         <li>자유롭게 개인의 메모를 저장할 수 있는 사이트입니다.</li>
         <li>
           <span className="font-bold">LocalStorage</span>를 사용하여, 다른

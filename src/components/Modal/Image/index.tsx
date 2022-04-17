@@ -28,6 +28,7 @@ const ImageModal: FC<Props> = ({ isOpen, onClose }) => {
           name="url"
           onChange={onChange}
           placeholder="사진 URL"
+          autoFocus
         />
       </div>
     </Modal>

@@ -29,7 +29,7 @@ enum HOT_KEY {
   'KeyQ' = 'Blockquote',
   'KeyL' = 'Link',
   'KeyM' = 'Image',
-  'KeyV' = 'Video',
+  'KeyX' = 'Video',
   'KeyD' = 'Code',
   'KeyH' = 'Help'
 }
@@ -195,7 +195,7 @@ const App: FC = () => {
       if (e.code === 'KeyQ') Blockquote()
       if (e.code === 'KeyL') setState({ isLinkOpen: !isLinkOpen })
       if (e.code === 'KeyM') setState({ isImageOpen: !isImageOpen })
-      if (e.code === 'KeyV') setState({ isVideoOpen: !isVideoOpen })
+      if (e.code === 'KeyX') setState({ isVideoOpen: !isVideoOpen })
       if (e.code === 'KeyD') Code()
       if (e.code === 'KeyH') setState({ isHelpOpen: !isHelpOpen })
     },
@@ -356,7 +356,7 @@ const App: FC = () => {
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="동영상 (Ctrl + V)">
+              <Tooltip content="동영상 (Ctrl + X)">
                 <button onClick={() => setState({ isVideoOpen: true })}>
                   <Icon.Video />
                 </button>
