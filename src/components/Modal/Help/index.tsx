@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import { Modal } from 'components'
+import { Modal, Icon } from 'components'
 
 export interface Props extends ModalProps {}
 
@@ -7,8 +7,8 @@ const HelpModal: FC<Props> = ({ isOpen, onClose }) => {
   if (!isOpen) return null
   return (
     <Modal title="도움말" isOpen={isOpen} onClose={onClose}>
-      <img src="/kidow-memo.png" alt="" className="h-7" />
-      <ul className="mt-4 list-inside list-disc text-sm">
+      <Icon.Logo />
+      <ul className="mt-4 text-sm list-disc list-inside">
         <li>자유롭게 개인의 메모를 저장할 수 있는 사이트입니다.</li>
         <li>
           <span className="font-bold">LocalStorage</span>를 사용하여, 다른
