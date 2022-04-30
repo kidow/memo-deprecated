@@ -1,27 +1,29 @@
-# Subdomain Project [2] - Memo
+# Subdomain Project - [Memo.](https://memo.kidow.me)
 
-> - Project [0] - [kidow.me](https://github.com/kidow/blog)
-> - Project [1] - [resume.kidow.me](https://github.com/kidow/resume)
-> - Project [2] - [memo.kidow.me](https://github.com/kidow/memo)
-> - Project [3] - [admin.kidow.me](https://github.com/kidow/admin)
-> - Project [4] - [archive.kidow.me](https://github.com/kidow/archive)
-
-[링크](https://memo.kidow.me)
-
----
-
-아무 메모나 자유롭게 적을 수 있는 싱글 페이지입니다.
-
-일을 하다가 머릿 속에 떠오르는 생각들을 정리할 수 있습니다.
-
-회의를 하면서 회의 내용을 받아 적는데도 사용할 수도 있습니다.
-
-**LocalStorage**를 사용했기 때문에, 창을 닫아도 메모 내용이 사라지지 않습니다. 다만, 다른 기기에서 내용을 불러올 수는 없습니다.
+> - [admin.kidow.me](https://github.com/kidow/admin)
+> - [analytics.kidow.me](https://github.com/kidow/analytics) (= kidow.me)
+> - [archive.kidow.me](https://github.com/kidow/archive)
+> - [blog.kidow.me](https://github.com/kidow/blog)
+> - [components.kidow.me](https://github.com/kidow/components)
+> - [log.kidow.me](https://github.com/kidow/log)
+> - [memo.kidow.me](https://github.com/kidow/memo)
+> - [opengraph.kidow.me](https://github.com/kidow/opengraph)
+> - [portal.kidow.me](https://github.com/kidow/portal)
+> - [resume.kidow.me](https://github.com/kidow/resume)
+> - [status.kidow.me](https://github.com/kidow/status)
 
 ---
 
-## Stack
+아무 생각이나 적도록 만든 사이트입니다.
 
-- React.js
-- Typescript
+서버가 아닌 `LocalStorage`에 실시간으로 저장하기 때문에, 서로 다른 환경에서 데이터를 확인하는 것은 불가능합니다.
+
+저 같은 경우는 개발하면서 복잡한 설계를 머릿속으로 정리하기 힘들 때, 혹은 그 날 해야 할 테스크들을 정리할 필요가 있을 때 주로 사용합니다.
+
+---
+
+## Stacks
+
+- React
 - TailwindCSS
+- Typescript
