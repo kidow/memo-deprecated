@@ -177,9 +177,12 @@ const App: FC = () => {
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (!e.ctrlKey || e.code === 'ControlLeft') return
-
-      if (hotKeys.indexOf(e.code) !== -1) e.preventDefault()
+      if (navigator.userAgent.indexOf('Macintosh') !== -1) {
+        if (!e.metaKey || !e.shiftKey) return
+      }
+      if (navigator.userAgent.indexOf('Windows') !== -1) {
+        if (!e.ctrlKey || !e.shiftKey) return
+      }
 
       if (e.code === 'Digit1') Heading1()
       if (e.code === 'Digit2') Heading2()
