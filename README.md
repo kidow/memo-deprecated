@@ -1,16 +1,12 @@
-# Subdomain Project - [Memo.](https://memo.kidow.me)
+# Subdomain Project - [Memo](https://memo.kidow.me)
 
-> - [admin.kidow.me](https://github.com/kidow/admin)
-> - [analytics.kidow.me](https://github.com/kidow/analytics) (= kidow.me)
 > - [archive.kidow.me](https://github.com/kidow/archive)
 > - [blog.kidow.me](https://github.com/kidow/blog)
 > - [components.kidow.me](https://github.com/kidow/components)
-> - [log.kidow.me](https://github.com/kidow/log)
+> - [files.kidow.me](https://files.kidow.me)
 > - [memo.kidow.me](https://github.com/kidow/memo)
 > - [opengraph.kidow.me](https://github.com/kidow/opengraph)
-> - [portal.kidow.me](https://github.com/kidow/portal)
 > - [resume.kidow.me](https://github.com/kidow/resume)
-> - [status.kidow.me](https://github.com/kidow/status)
 
 ---
 
