@@ -1,107 +1,66 @@
-import { Children, cloneElement, useRef, useEffect, useMemo } from 'react'
-import type { ReactElement, MouseEvent, ReactNode, FC } from 'react'
+import { memo } from 'react'
+import type { FC } from 'react'
 import classnames from 'classnames'
-import { useObjectState } from 'services'
-import { Portal } from 'components'
+import type { Argument } from 'classnames'
 
-interface Props {
-  content: ReactNode
-  children: ReactNode
-}
-interface State {
-  isOpen: boolean
-  triggerTop: number
-  triggerLeft: number
-  triggerWidth: number
-  tooltipWidth: number
-  tooltipHeight: number
+export interface Props extends ReactProps {
+  content: string
+  arrow?: boolean
+  className?: Argument
+  position?: 'top' | 'right' | 'bottom' | 'left'
 }
 
-const Tooltip: FC<Props> = ({ children, content, ...props }) => {
-  const [
-    {
-      isOpen,
-      triggerLeft,
-      triggerTop,
-      triggerWidth,
-      tooltipHeight,
-      tooltipWidth
-    },
-    setState,
-    ,
-    resetState
-  ] = useObjectState<State>({
-    isOpen: false,
-    triggerTop: 0,
-    triggerLeft: 0,
-    triggerWidth: 0,
-    tooltipHeight: 0,
-    tooltipWidth: 0
-  })
-  const tooltipRef = useRef<HTMLDivElement>(null)
-  const child = Children.only(
-    typeof children === 'string' ? (
-      <div tabIndex={-1}>{children}</div>
-    ) : (
-      children
-    )
-  ) as ReactElement
-  const trigger = cloneElement(child, {
-    ...props,
-    className: 'inline-block',
-    onMouseEnter: (e: MouseEvent) => {
-      const element = e.target as HTMLElement
-      const { width, top, left } = element.getBoundingClientRect()
-      setState({
-        isOpen: true,
-        triggerLeft: left,
-        triggerTop: top,
-        triggerWidth: width
-      })
-    },
-    onMouseLeave: () => resetState()
-  })
-
-  const left: number = useMemo(() => {
-    return triggerLeft + triggerWidth / 2 - tooltipWidth / 2
-  }, [triggerLeft, triggerWidth, tooltipWidth])
-
-  const top: number = useMemo(() => {
-    return triggerTop + tooltipHeight + 22
-  }, [triggerTop, tooltipHeight])
-
-  const isPositioned: boolean = useMemo(() => {
-    return !!tooltipWidth && !!tooltipHeight
-  }, [left, top])
-
-  useEffect(() => {
-    if (isOpen && tooltipRef.current) {
-      const { height, width } = tooltipRef.current.getBoundingClientRect()
-      setState({
-        tooltipHeight: height,
-        tooltipWidth: width
-      })
-    }
-  }, [isOpen, tooltipRef])
+const Tooltip: FC<Props> = ({
+  children,
+  content,
+  position = 'bottom',
+  arrow = true,
+  className
+}) => {
   return (
-    <>
-      {trigger}
-      {isOpen && (
-        <Portal role="tooltip">
-          <div
-            ref={tooltipRef}
-            className={classnames(
-              'fixed rounded border border-neutral-900 bg-neutral-50 py-1 px-2 text-xs dark:border-none dark:bg-black dark:text-neutral-50',
-              isPositioned ? 'visible' : 'invisible'
-            )}
-            style={{ left, top }}
-          >
-            {content}
-          </div>
-        </Portal>
+    <div
+      className={classnames(
+        'relative inline-block text-center before:pointer-events-none before:absolute before:z-[9999] before:w-max before:max-w-xs before:rounded before:bg-neutral-800 before:px-2 before:py-1 before:text-xs before:text-neutral-50 before:opacity-0 before:delay-100 before:duration-200 before:ease-in-out before:content-[attr(data-tip)] hover:before:opacity-100 hover:before:delay-75 dark:before:bg-neutral-700',
+        {
+          "after:absolute after:z-[9999] after:block after:h-0 after:w-0 after:border-[3px] after:border-transparent after:opacity-0 after:delay-100 after:duration-200 after:ease-in-out after:content-[''] hover:after:opacity-100 hover:after:delay-75":
+            arrow,
+
+          'before:top-auto before:bottom-[calc(100%+4px)]': position === 'top',
+          'before:left-[calc(100%+5px)]': position === 'right',
+          'before:top-[calc(100%+4px)]': position === 'bottom',
+          'before:left-auto before:right-[calc(100%+5px)]': position === 'left',
+
+          'before:left-1/2 before:-translate-x-1/2':
+            position === 'top' || position === 'bottom',
+          'before:right-auto': position !== 'left',
+          'before:top-1/2 before:-translate-y-1/2':
+            position === 'right' || position === 'left',
+          'before:bottom-auto': position !== 'top',
+
+          'after:top-auto after:bottom-[calc(100%-2px)] after:border-t-neutral-800 dark:after:border-t-neutral-700':
+            position === 'top' && arrow,
+          'after:left-[calc(100%-1px)] after:border-r-neutral-800 dark:after:border-r-neutral-700':
+            position === 'right' && arrow,
+          'after:top-[calc(100%-2px)] after:border-b-neutral-800 dark:after:border-b-neutral-700':
+            position === 'bottom' && arrow,
+          'after:left-auto after:right-[calc(100%-1px)] after:border-l-neutral-800 dark:after:border-l-neutral-700':
+            position === 'left' && arrow,
+
+          'after:left-1/2 after:-translate-x-1/2':
+            (position === 'top' || position === 'bottom') && arrow,
+          'after:right-auto': position !== 'left' && arrow,
+          'after:top-1/2 after:-translate-y-1/2':
+            (position === 'right' || position === 'left') && arrow,
+          'after:bottom-auto': position !== 'top' && arrow
+        },
+        className
       )}
-    </>
+      data-tip={content}
+      role="tooltip"
+    >
+      {children}
+    </div>
   )
 }
 
-export default Tooltip
+export default memo(Tooltip)

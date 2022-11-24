@@ -30,7 +30,7 @@ const Input: FC<Props> = ({
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !!onEnter) onEnter()
   }
-  const elementId = useId()
+  const id = useId()
   return (
     <div>
       <div
@@ -45,7 +45,7 @@ const Input: FC<Props> = ({
       >
         <input
           {...props}
-          id={props.id || elementId}
+          id={props.id || id}
           className={classnames(
             'block w-full border border-neutral-500 bg-transparent text-neutral-900 focus:outline-none dark:text-neutral-200',
             {
@@ -62,7 +62,7 @@ const Input: FC<Props> = ({
             },
             !!error
               ? 'border-red-500'
-              : 'border-neutral-300 focus:border-indigo-500',
+              : 'border-neutral-300 focus:ring focus:ring-orange-400',
             className
           )}
           onKeyDown={onKeyDown}
@@ -70,7 +70,7 @@ const Input: FC<Props> = ({
         />
         {!!props.placeholder && (
           <label
-            htmlFor={props.id || elementId}
+            htmlFor={props.id || id}
             className={classnames(
               'absolute -top-6 max-w-[calc(100%-24px)] cursor-text select-none truncate text-neutral-600 transition-all peer-placeholder-shown:text-neutral-400 peer-focus:left-0 peer-focus:max-w-full peer-focus:cursor-default peer-focus:text-neutral-600 dark:text-neutral-200 dark:peer-focus:text-neutral-200',
               !!props.value ? 'left-0' : 'left-3',

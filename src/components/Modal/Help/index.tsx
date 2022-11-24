@@ -6,13 +6,13 @@ export interface Props extends ModalProps {}
 const HelpModal: FC<Props> = ({ isOpen, onClose }) => {
   if (!isOpen) return null
   return (
-    <Modal title="도움말" isOpen={isOpen} onClose={onClose}>
+    <Modal title="서비스 소개" isOpen={isOpen} onClose={onClose}>
       <Icon.Logo />
-      <ul className="mt-4 text-sm list-disc list-inside">
-        <li>자유롭게 개인의 메모를 저장할 수 있는 사이트입니다.</li>
+      <ul className="mt-4 list-inside list-disc text-sm">
+        <li>자유롭게 메모를 저장하고 열람할 수 있는 사이트입니다.</li>
         <li>
-          <span className="font-bold">LocalStorage</span>를 사용하여, 다른
-          컴퓨터에서 데이터를 불러올 수 없습니다.
+          <span className="font-bold">LocalStorage</span>를 사용하기 때문에 다른
+          환경에서 내용을 불러올 수는 없습니다.
         </li>
         <li>
           실시간으로 저장하기 때문에 입력 후 창을 새로고침해도 데이터가 날아가지

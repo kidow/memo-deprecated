@@ -1,6 +1,4 @@
-import { FC } from 'react'
-
-const Heading1Icon = () => {
+const Heading1 = () => {
   return (
     <svg
       width="24px"
@@ -16,7 +14,7 @@ const Heading1Icon = () => {
   )
 }
 
-const Heading2Icon = () => {
+const Heading2 = () => {
   return (
     <svg
       width="24px"
@@ -32,7 +30,7 @@ const Heading2Icon = () => {
   )
 }
 
-const Heading3Icon = () => {
+const Heading3 = () => {
   return (
     <svg
       width="24px"
@@ -48,7 +46,7 @@ const Heading3Icon = () => {
   )
 }
 
-const Heading4Icon = () => {
+const Heading4 = () => {
   return (
     <svg
       width="24px"
@@ -64,7 +62,7 @@ const Heading4Icon = () => {
   )
 }
 
-const BoldIcon = () => {
+const Bold = () => {
   return (
     <svg
       width="24px"
@@ -80,7 +78,7 @@ const BoldIcon = () => {
   )
 }
 
-const ItalicIcon = () => {
+const Italic = () => {
   return (
     <svg
       width="24px"
@@ -96,7 +94,7 @@ const ItalicIcon = () => {
   )
 }
 
-const UnderlineIcon = () => {
+const Underline = () => {
   return (
     <svg
       width="24px"
@@ -112,7 +110,7 @@ const UnderlineIcon = () => {
   )
 }
 
-const StrikeThroughIcon = () => {
+const StrikeThrough = () => {
   return (
     <svg
       width="24px"
@@ -128,7 +126,7 @@ const StrikeThroughIcon = () => {
   )
 }
 
-const ClearIcon = () => {
+const Clear = () => {
   return (
     <svg
       width="24px"
@@ -144,7 +142,7 @@ const ClearIcon = () => {
   )
 }
 
-const TextColorIcon = () => {
+const TextColor = () => {
   return (
     <svg
       width="24px"
@@ -160,7 +158,7 @@ const TextColorIcon = () => {
   )
 }
 
-const AlignLeftIcon = () => {
+const AlignLeft = () => {
   return (
     <svg
       width="24px"
@@ -176,7 +174,7 @@ const AlignLeftIcon = () => {
   )
 }
 
-const AlignCenterIcon = () => {
+const AlignCenter = () => {
   return (
     <svg
       width="24px"
@@ -192,7 +190,7 @@ const AlignCenterIcon = () => {
   )
 }
 
-const AlignRightIcon = () => {
+const AlignRight = () => {
   return (
     <svg
       width="24px"
@@ -208,7 +206,7 @@ const AlignRightIcon = () => {
   )
 }
 
-const OrderedListIcon = () => {
+const OrderedList = () => {
   return (
     <svg
       width="24px"
@@ -224,7 +222,7 @@ const OrderedListIcon = () => {
   )
 }
 
-const UnorderedListIcon = () => {
+const UnorderedList = () => {
   return (
     <svg
       width="24px"
@@ -240,7 +238,7 @@ const UnorderedListIcon = () => {
   )
 }
 
-const BlockquoteIcon = () => {
+const Blockquote = () => {
   return (
     <svg
       width="24px"
@@ -256,7 +254,7 @@ const BlockquoteIcon = () => {
   )
 }
 
-const LinkIcon = () => {
+const Link = () => {
   return (
     <svg
       width="24px"
@@ -272,7 +270,7 @@ const LinkIcon = () => {
   )
 }
 
-const ImageIcon = () => {
+const Image = () => {
   return (
     <svg
       width="24px"
@@ -288,7 +286,7 @@ const ImageIcon = () => {
   )
 }
 
-const VideoIcon = () => {
+const Video = () => {
   return (
     <svg
       width="24px"
@@ -304,7 +302,7 @@ const VideoIcon = () => {
   )
 }
 
-const CodeIcon = () => {
+const Code = () => {
   return (
     <svg
       width="24px"
@@ -320,7 +318,7 @@ const CodeIcon = () => {
   )
 }
 
-const HelpIcon = () => {
+const Help = () => {
   return (
     <svg
       width="24px"
@@ -336,7 +334,7 @@ const HelpIcon = () => {
   )
 }
 
-const GithubIcon = () => {
+const Github = () => {
   return (
     <svg
       width="24px"
@@ -353,7 +351,7 @@ const GithubIcon = () => {
   )
 }
 
-const LightIcon = () => {
+const Light = () => {
   return (
     <svg
       width="32px"
@@ -400,7 +398,7 @@ const LightIcon = () => {
   )
 }
 
-const MoonIcon = () => {
+const Moon = () => {
   return (
     <svg
       width="32px"
@@ -416,7 +414,7 @@ const MoonIcon = () => {
   )
 }
 
-const LogoIcon = () => {
+const Logo = () => {
   return (
     <svg
       viewBox="0 0 899 137"
@@ -436,61 +434,30 @@ const LogoIcon = () => {
   )
 }
 
-export interface Props {}
-interface IIcon extends FC<Props> {
-  Heading1: typeof Heading1Icon
-  Heading2: typeof Heading2Icon
-  Heading3: typeof Heading3Icon
-  Heading4: typeof Heading4Icon
-  Bold: typeof BoldIcon
-  Italic: typeof ItalicIcon
-  Underline: typeof UnderlineIcon
-  StrikeThrough: typeof StrikeThroughIcon
-  Clear: typeof ClearIcon
-  TextColor: typeof TextColorIcon
-  AlignLeft: typeof AlignLeftIcon
-  AlignCenter: typeof AlignCenterIcon
-  AlignRight: typeof AlignRightIcon
-  OrderedList: typeof OrderedListIcon
-  UnorderedList: typeof UnorderedListIcon
-  Blockquote: typeof BlockquoteIcon
-  Link: typeof LinkIcon
-  Image: typeof ImageIcon
-  Video: typeof VideoIcon
-  Code: typeof CodeIcon
-  Help: typeof HelpIcon
-  Github: typeof GithubIcon
-  Light: typeof LightIcon
-  Moon: typeof MoonIcon
-  Logo: typeof LogoIcon
+export default {
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Bold,
+  Italic,
+  Underline,
+  StrikeThrough,
+  Clear,
+  TextColor,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  OrderedList,
+  UnorderedList,
+  Blockquote,
+  Link,
+  Image,
+  Video,
+  Code,
+  Help,
+  Github,
+  Light,
+  Moon,
+  Logo
 }
-
-const Icon: IIcon = () => <></>
-
-Icon.Heading1 = Heading1Icon
-Icon.Heading2 = Heading2Icon
-Icon.Heading3 = Heading3Icon
-Icon.Heading4 = Heading4Icon
-Icon.Bold = BoldIcon
-Icon.Italic = ItalicIcon
-Icon.Underline = UnderlineIcon
-Icon.StrikeThrough = StrikeThroughIcon
-Icon.Clear = ClearIcon
-Icon.TextColor = TextColorIcon
-Icon.AlignLeft = AlignLeftIcon
-Icon.AlignCenter = AlignCenterIcon
-Icon.AlignRight = AlignRightIcon
-Icon.OrderedList = OrderedListIcon
-Icon.UnorderedList = UnorderedListIcon
-Icon.Blockquote = BlockquoteIcon
-Icon.Link = LinkIcon
-Icon.Image = ImageIcon
-Icon.Video = VideoIcon
-Icon.Code = CodeIcon
-Icon.Help = HelpIcon
-Icon.Github = GithubIcon
-Icon.Light = LightIcon
-Icon.Moon = MoonIcon
-Icon.Logo = LogoIcon
-
-export default Icon

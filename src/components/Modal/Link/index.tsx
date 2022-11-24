@@ -48,6 +48,7 @@ const LinkModal: FC<Props> = ({ isOpen, onClose }) => {
         <div className="mt-2">
           <Checkbox
             label="새 창에서 열기"
+            size="sm"
             checked={isNewTab}
             onChange={(isNewTab) => setState({ isNewTab })}
           />

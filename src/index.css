@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 * {
   font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
@@ -17,7 +16,7 @@
 
 @layer components {
   .toolbar {
-    @apply sticky top-0 z-10 flex w-screen gap-2 overflow-auto bg-neutral-50 duration-150 scrollbar-hide dark:bg-neutral-900 sm:w-auto sm:flex-wrap;
+    @apply sticky top-0 z-10 flex w-screen gap-2 bg-neutral-50 duration-150 scrollbar-hide dark:bg-neutral-900 sm:w-auto sm:flex-wrap;
   }
   .toolbar ul {
     @apply flex;
