@@ -23,4 +23,5 @@
 - React
 - TailwindCSS
 - Typescript
+- Quill
 - classnames

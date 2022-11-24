@@ -9,7 +9,6 @@ export interface Props {
   size?: 'sm' | 'md' | 'lg' | 'xl'
   disabled?: boolean
 }
-interface State {}
 
 const Checkbox: FC<Props> = ({
   label,

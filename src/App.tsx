@@ -1,88 +1,31 @@
-import { useCallback, useEffect, useRef, useMemo } from 'react'
-import type { FC, ChangeEvent } from 'react'
+import { useEffect, useRef } from 'react'
+import type { FC } from 'react'
 import { Icon, Modal, Tooltip } from 'components'
 import { useObjectState } from 'services'
-import classnames from 'classnames'
-
-function debounce(func: Function, wait: number) {
-  let timeout: NodeJS.Timeout
-  return function (...args: any) {
-    clearTimeout(timeout)
-    timeout = setTimeout(() => {
-      func.apply(this, args)
-    }, wait)
-  }
-}
-
-enum HOT_KEY {
-  'Digit1' = 'Heading1',
-  'Digit2' = 'Heading2',
-  'Digit3' = 'Heading3',
-  'Digit4' = 'Heading4',
-  'KeyB' = 'Bold',
-  'KeyI' = 'Italic',
-  'KeyU' = 'Underline',
-  'KeyS' = 'StrikeThrough',
-  'KeyC' = 'Clear',
-  'Digit5' = 'UnorderedList',
-  'Digit6' = 'OrderedList',
-  'KeyQ' = 'Blockquote',
-  'KeyL' = 'Link',
-  'KeyM' = 'Image',
-  'KeyX' = 'Video',
-  'KeyD' = 'Code',
-  'KeyH' = 'Help'
-}
+import Quill from 'quill'
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
 
 type Theme = 'light' | 'dark'
 interface State {
-  content: string
   isLinkOpen: boolean
   isImageOpen: boolean
   isVideoOpen: boolean
   isHelpOpen: boolean
-  isCodeMode: boolean
-  preview: string
   theme: Theme
 }
 
 const App: FC = () => {
   const [
-    {
-      content,
-      isLinkOpen,
-      isHelpOpen,
-      isImageOpen,
-      isVideoOpen,
-      isCodeMode,
-      preview,
-      theme
-    },
+    { isLinkOpen, isHelpOpen, isImageOpen, isVideoOpen, theme },
     setState
   ] = useObjectState<State>({
-    content: '',
     isLinkOpen: false,
     isHelpOpen: false,
     isImageOpen: false,
     isVideoOpen: false,
-    isCodeMode: false,
-    preview: '',
     theme: (window.localStorage.getItem('theme') as Theme) || 'light'
   })
   const ref = useRef<HTMLDivElement>(null)
-
-  const saveValue = useCallback(
-    debounce(
-      (value: string) => window.localStorage.setItem('content', value),
-      200
-    ),
-    []
-  )
-
-  const onInput = (e: ChangeEvent<HTMLDivElement>) => {
-    setState({ content: e.target.innerHTML })
-    saveValue(e.target.innerHTML)
-  }
 
   const onThemeChange = () => {
     if (theme === 'light') {
@@ -97,148 +40,58 @@ const App: FC = () => {
     }
   }
 
-  const htmlToDom = (html: string) => {
-    const newElement = document.createElement('div')
-    newElement.innerHTML = html
-    return newElement.children[0]
-  }
-
-  const Heading1 = () => {
-    const selection = document.getSelection()
-    if (!selection) return
-    for (let i = selection.rangeCount; i--; ) {
-      const wrapper = htmlToDom('<h1/>')
-      const range = selection.getRangeAt(i)
-      wrapper.appendChild(range.extractContents())
-      range.insertNode(wrapper)
-    }
-    // document.execCommand('formatBlock', false, 'h1')
-  }
-
-  const hotKeys: string[] = useMemo(
-    () => Object.entries(HOT_KEY).map(([name]) => name),
-    []
-  )
-
-  const Heading2 = () => {
-    document.execCommand('formatBlock', false, 'h2')
-  }
-
-  const Heading3 = () => {
-    document.execCommand('formatBlock', false, 'h3')
-  }
-
-  const Heading4 = () => {
-    document.execCommand('formatBlock', false, 'h4')
-  }
-
-  const Bold = () => {
-    document.execCommand('bold')
-  }
-
-  const Italic = () => {
-    document.execCommand('italic')
-  }
-
-  const Underline = () => {
-    document.execCommand('underline')
-  }
-
-  const StrikeThrough = () => {
-    document.execCommand('strikeThrough')
-  }
-
-  const Clear = () => {
-    document.execCommand('removeFormat')
-  }
-
-  const UnorderedList = () => {
-    document.execCommand('insertUnorderedList')
-  }
-
-  const OrderedList = () => {
-    document.execCommand('insertOrderedList')
-  }
-
-  const Blockquote = () => {
-    document.execCommand('formatBlock', false, 'blockquote')
-  }
-
-  const Code = () => {
-    if (!ref.current) return
-
-    if (isCodeMode) {
-      ref.current.innerHTML = content
-      setState({ isCodeMode: false })
-    } else {
-      setState({ preview: ref.current.innerHTML, isCodeMode: true })
-    }
-  }
-
-  const onKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (navigator.userAgent.indexOf('Macintosh') !== -1) {
-        if (!e.metaKey || !e.shiftKey) return
-      }
-      if (navigator.userAgent.indexOf('Windows') !== -1) {
-        if (!e.ctrlKey || !e.shiftKey) return
-      }
-
-      if (e.code === 'Digit1') Heading1()
-      if (e.code === 'Digit2') Heading2()
-      if (e.code === 'Digit3') Heading3()
-      if (e.code === 'Digit4') Heading4()
-      if (e.code === 'KeyB') Bold()
-      if (e.code === 'KeyI') Italic()
-      if (e.code === 'KeyU') Underline()
-      if (e.code === 'KeyS') StrikeThrough()
-      if (e.code === 'KeyC') Clear()
-      if (e.code === 'Digit5') UnorderedList()
-      if (e.code === 'Digit6') OrderedList()
-      if (e.code === 'KeyQ') Blockquote()
-      if (e.code === 'KeyL') setState({ isLinkOpen: !isLinkOpen })
-      if (e.code === 'KeyM') setState({ isImageOpen: !isImageOpen })
-      if (e.code === 'KeyX') setState({ isVideoOpen: !isVideoOpen })
-      if (e.code === 'KeyD') Code()
-      if (e.code === 'KeyH') setState({ isHelpOpen: !isHelpOpen })
-    },
-    [isLinkOpen, isImageOpen, isVideoOpen, isCodeMode, isHelpOpen]
-  )
-
-  useEffect(() => {
-    document.onkeydown = onKeyDown
-
-    return () => {
-      document.onkeydown = null
-    }
-  }, [isLinkOpen, isImageOpen, isVideoOpen, isCodeMode, isHelpOpen])
-
   useEffect(() => {
     if (window.localStorage.getItem('theme') === 'dark') {
       document.getElementsByTagName('html')[0].classList.add('dark')
     }
 
     if (!ref.current) return
+    const editor = new Quill(ref.current, {
+      theme: 'snow',
+      modules: { toolbar: false },
+      placeholder: '아무 내용이나 적어보세요...'
+    })
+    editor.on('text-change', () => {
+      const converter = new QuillDeltaToHtmlConverter(editor.getContents().ops)
+      const html = converter.convert()
+      window.localStorage.setItem('content', html)
+    })
 
-    const currentContent = window.localStorage.getItem('content')
-    if (!currentContent) {
-      ref.current.focus()
-      return
+    const content = window.localStorage.getItem('content')
+    if (!!content && content !== '<p><br/></p>') {
+      editor.root.innerHTML = content.replaceAll('<br/>', '<br/>\n')
+      const selection = window.getSelection()
+      if (!selection) return
+      const range = document.createRange()
+      range.selectNodeContents(editor.root)
+      range.collapse(false)
+      selection.removeAllRanges()
+      selection.addRange(range)
+    } else {
+      editor.focus()
     }
 
-    ref.current.innerHTML = currentContent
-    setState({ content: currentContent })
+    const onAutoFocus = (e: globalThis.KeyboardEvent) => {
+      if (!e.target) return
+      const target = e.target as HTMLElement
 
-    const selection = window.getSelection()
-    const newRange = document.createRange()
-    newRange.selectNodeContents(ref.current)
-    newRange.collapse(false)
-    selection?.removeAllRanges()
-    selection?.addRange(newRange)
-
-    return () => {
-      window.localStorage.setItem('content', content)
+      if (
+        target?.className !== 'ql-editor' &&
+        Array.from(document.body.childNodes).findIndex(
+          (item: any) => item.role === 'dialog'
+        ) === -1
+      ) {
+        const selection = window.getSelection()
+        if (!selection) return
+        const range = document.createRange()
+        range.selectNodeContents(editor.root)
+        range.collapse(false)
+        selection.removeAllRanges()
+        selection.addRange(range)
+      }
     }
+
+    document.addEventListener('keydown', onAutoFocus)
   }, [])
   return (
     <>
@@ -247,21 +100,21 @@ const App: FC = () => {
           <ul>
             <li>
               <Tooltip content="제목 1 (Ctrl + 1)">
-                <button onClick={Heading1}>
+                <button>
                   <Icon.Heading1 />
                 </button>
               </Tooltip>
             </li>
             <li>
               <Tooltip content="제목 2 (Ctrl + 2)">
-                <button onClick={Heading2}>
+                <button>
                   <Icon.Heading2 />
                 </button>
               </Tooltip>
             </li>
             <li>
               <Tooltip content="제목 3 (Ctrl + 3)">
-                <button onClick={Heading3}>
+                <button>
                   <Icon.Heading3 />
                 </button>
               </Tooltip>
@@ -277,7 +130,7 @@ const App: FC = () => {
           <ul>
             <li>
               <Tooltip content="굵게 (Ctrl + B)">
-                <button>
+                <button className="ql-bold">
                   <Icon.Bold />
                 </button>
               </Tooltip>
@@ -366,8 +219,8 @@ const App: FC = () => {
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="코드보기 (Ctrl + D)">
-                <button onClick={Code}>
+              <Tooltip content="코드 (Ctrl + D)">
+                <button>
                   <Icon.Code />
                 </button>
               </Tooltip>
@@ -384,24 +237,7 @@ const App: FC = () => {
           </ul>
         </nav>
 
-        <textarea
-          className={classnames(
-            'min-h-[400px] w-full cursor-default resize-none border-none bg-transparent px-3 focus:outline-none sm:px-0',
-            isCodeMode ? 'block' : 'hidden'
-          )}
-          readOnly
-          value={preview}
-        />
-        <div
-          contentEditable
-          spellCheck={false}
-          className={classnames(
-            "prose-sm prose-neutral min-h-[400px] px-3 pb-40 empty:before:italic empty:before:text-neutral-500 empty:before:content-['아무_내용이나_입력하세요...'] focus:outline-none dark:prose-invert sm:prose sm:px-0",
-            isCodeMode ? 'hidden' : 'block'
-          )}
-          onInput={onInput}
-          ref={ref}
-        ></div>
+        <div ref={ref} spellCheck={false} />
       </div>
 
       <a
