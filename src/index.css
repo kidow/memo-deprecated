@@ -17,16 +17,16 @@
 }
 
 @layer components {
-  .toolbar {
-    @apply sticky top-0 z-10 flex w-screen gap-2 bg-transparent duration-150 scrollbar-hide sm:w-auto sm:flex-wrap;
+  #toolbar {
+    @apply sticky top-0 z-10 flex w-screen gap-2 bg-neutral-50 duration-150 scrollbar-hide dark:bg-neutral-900 sm:w-auto sm:flex-wrap;
   }
-  .toolbar ul {
+  #toolbar ul {
     @apply flex;
   }
-  .toolbar button {
+  #toolbar button {
     @apply p-2;
   }
-  .toolbar svg {
-    @apply fill-neutral-700 dark:fill-neutral-200;
+  #toolbar svg {
+    @apply h-6 w-6 fill-neutral-700 dark:fill-neutral-200;
   }
 }

@@ -1,9 +1,30 @@
 import { useEffect, useRef } from 'react'
 import type { FC } from 'react'
 import { Icon, Modal, Tooltip } from 'components'
-import { useObjectState } from 'services'
+import { Icons, useObjectState } from 'services'
 import Quill from 'quill'
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
+import { useMemo } from 'react'
+
+const icons = Quill.import('ui/icons')
+icons['header']['1'] = Icons.Heading1
+icons['header']['2'] = Icons.Heading2
+icons['header']['3'] = Icons.Heading3
+icons['header']['4'] = Icons.Heading4
+icons['bold'] = Icons.Bold
+icons['italic'] = Icons.Italic
+icons['underline'] = Icons.Underline
+icons['strike'] = Icons.Strike
+icons['clean'] = Icons.Clean
+// icons['color'] = Icons.Color
+icons['list']['ordered'] = Icons.OrderedList
+icons['list']['check'] = Icons.Check
+icons['list']['bullet'] = Icons.Bullet
+icons['blockquote'] = Icons.Blockquote
+icons['link'] = Icons.Link
+icons['image'] = Icons.Image
+icons['video'] = Icons.Video
+icons['code-block'] = Icons.Code
 
 type Theme = 'light' | 'dark'
 interface State {
@@ -40,51 +61,106 @@ const App: FC = () => {
     }
   }
 
+  const shortKey: string = useMemo(
+    () =>
+      window.navigator.platform.toUpperCase().indexOf('MAC') !== -1
+        ? '⌘'
+        : 'Ctrl',
+    []
+  )
+
   useEffect(() => {
     if (window.localStorage.getItem('theme') === 'dark') {
       document.getElementsByTagName('html')[0].classList.add('dark')
     }
 
     if (!ref.current) return
-    const editor = new Quill(ref.current, {
+    const quill = new Quill(ref.current, {
       theme: 'snow',
-      modules: { toolbar: false },
+      modules: { toolbar: '#toolbar' },
       placeholder: '아무 내용이나 적어보세요...'
     })
-    editor.on('text-change', () => {
-      const converter = new QuillDeltaToHtmlConverter(editor.getContents().ops)
+    quill.on('text-change', (delta) => {
+      const converter = new QuillDeltaToHtmlConverter(quill.getContents().ops)
       const html = converter.convert()
       window.localStorage.setItem('content', html)
+    })
+    quill.keyboard.addBinding({ key: '1', shortKey: true }, () =>
+      quill.format('header', '1')
+    )
+    quill.keyboard.addBinding({ key: '2', shortKey: true }, () =>
+      quill.format('header', '2')
+    )
+    quill.keyboard.addBinding({ key: '3', shortKey: true }, () =>
+      quill.format('header', '3')
+    )
+    quill.keyboard.addBinding({ key: '4', shortKey: true }, () =>
+      quill.format('header', '4')
+    )
+    quill.keyboard.addBinding({ key: 'S', shortKey: true }, (range) => {
+      quill.formatText(range, 'strike', true)
+    })
+    quill.keyboard.addBinding(
+      { key: 'E', shortKey: true },
+      ({ index, length }) => {
+        quill.removeFormat(index, length)
+      }
+    )
+    quill.keyboard.addBinding({ key: '5', shortKey: true }, () =>
+      quill.format('list', 'bullet')
+    )
+    quill.keyboard.addBinding({ key: '6', shortKey: true }, () =>
+      quill.format('list', 'unchecked')
+    )
+    quill.keyboard.addBinding({ key: '7', shortKey: true }, () =>
+      quill.format('list', 'ordered')
+    )
+    quill.keyboard.addBinding({ key: 'Y', shortKey: true }, () =>
+      quill.format('blockquote', true)
+    )
+    quill.keyboard.addBinding({ key: 'O', shortKey: true }, () => {
+      console.log('1', 1)
+    })
+    quill.keyboard.addBinding({ key: 'P', shortKey: true }, () => {
+      console.log('2', 2)
+    })
+    quill.keyboard.addBinding({ key: 'D', shortKey: true }, () => {
+      console.log('3', 3)
     })
 
     const content = window.localStorage.getItem('content')
     if (!!content && content !== '<p><br/></p>') {
-      editor.root.innerHTML = content.replaceAll('<br/>', '<br/>\n')
+      quill.root.innerHTML = content.replaceAll('<br/>', '<br/>\n')
       const selection = window.getSelection()
       if (!selection) return
       const range = document.createRange()
-      range.selectNodeContents(editor.root)
+      range.selectNodeContents(quill.root)
       range.collapse(false)
       selection.removeAllRanges()
       selection.addRange(range)
     } else {
-      editor.focus()
+      quill.focus()
     }
 
     const onAutoFocus = (e: globalThis.KeyboardEvent) => {
       if (!e.target) return
       const target = e.target as HTMLElement
 
+      const tooltip = Array.from(ref.current!.children).find(
+        (item) => item.className.indexOf('ql-tooltip') !== -1
+      )
+
       if (
         target?.className !== 'ql-editor' &&
         Array.from(document.body.childNodes).findIndex(
           (item: any) => item.role === 'dialog'
-        ) === -1
+        ) === -1 &&
+        tooltip?.className.indexOf('ql-hidden') !== -1
       ) {
         const selection = window.getSelection()
         if (!selection) return
         const range = document.createRange()
-        range.selectNodeContents(editor.root)
+        range.selectNodeContents(quill.root)
         range.collapse(false)
         selection.removeAllRanges()
         selection.addRange(range)
@@ -96,142 +172,104 @@ const App: FC = () => {
   return (
     <>
       <div className="container mx-auto max-w-screen-md">
-        <nav role="toolbar" className="toolbar">
-          <ul>
+        <nav role="toolbar" id="toolbar">
+          <ul className="ql-formats">
             <li>
-              <Tooltip content="제목 1 (Ctrl + 1)">
-                <button>
-                  <Icon.Heading1 />
-                </button>
+              <Tooltip content={`제목 1 (${shortKey} + 1)`}>
+                <button className="ql-header" value="1" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="제목 2 (Ctrl + 2)">
-                <button>
-                  <Icon.Heading2 />
-                </button>
+              <Tooltip content={`제목 2 (${shortKey} + 2)`}>
+                <button className="ql-header" value="2" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="제목 3 (Ctrl + 3)">
-                <button>
-                  <Icon.Heading3 />
-                </button>
+              <Tooltip content={`제목 3 (${shortKey} + 3)`}>
+                <button className="ql-header" value="3" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="제목 4 (Ctrl + 4)">
-                <button>
-                  <Icon.Heading4 />
-                </button>
+              <Tooltip content={`제목 4 (${shortKey} + 4)`}>
+                <button className="ql-header" value="4" />
               </Tooltip>
             </li>
           </ul>
-          <ul>
+          <ul className="ql-formats">
             <li>
-              <Tooltip content="굵게 (Ctrl + B)">
-                <button className="ql-bold">
-                  <Icon.Bold />
-                </button>
+              <Tooltip content={`굵게 (${shortKey} + B)`}>
+                <button className="ql-bold" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="기울임꼴 (Ctrl + I)">
-                <button>
-                  <Icon.Italic />
-                </button>
+              <Tooltip content={`기울임꼴 (${shortKey} + I)`}>
+                <button className="ql-italic" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="밑줄 (Ctrl + U)">
-                <button>
-                  <Icon.Underline />
-                </button>
+              <Tooltip content={`밑줄 (${shortKey} + U)`}>
+                <button className="ql-underline" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="취소선 (Ctrl + S)">
-                <button>
-                  <Icon.StrikeThrough />
-                </button>
+              <Tooltip content={`취소선 (${shortKey} + S)`}>
+                <button className="ql-strike" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="서식 지우기 (Ctrl + C)">
-                <button>
-                  <Icon.Clear />
-                </button>
+              <Tooltip content={`서식 지우기 (${shortKey} + E)`}>
+                <button className="ql-clean" />
               </Tooltip>
             </li>
           </ul>
-          <ul>
+          {/* <ul className="ql-formats">
             <li>
               <Tooltip content="글자색">
-                <button>
-                  <Icon.TextColor />
-                </button>
+                <button className="ql-color ql-color-picker ql-picker" />
+              </Tooltip>
+            </li>
+          </ul> */}
+          <ul className="ql-formats">
+            <li>
+              <Tooltip content={`글머리 기호 (${shortKey} + 5)`}>
+                <button className="ql-list" value="bullet" />
+              </Tooltip>
+            </li>
+            <li>
+              <Tooltip content={`할 일 목록 (${shortKey} + 6)`}>
+                <button className="ql-list" value="check" />
+              </Tooltip>
+            </li>
+            <li>
+              <Tooltip content={`번호 매기기 (${shortKey} + 7)`}>
+                <button className="ql-list" value="ordered" />
               </Tooltip>
             </li>
           </ul>
-          <ul>
+          <ul className="ql-formats">
             <li>
-              <Tooltip content="글머리 기호 (Ctrl + 5)">
-                <button>
-                  <Icon.UnorderedList />
-                </button>
+              <Tooltip content={`인용문 (${shortKey} + Y)`}>
+                <button className="ql-blockquote" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="번호 매기기 (Ctrl + 6)">
-                <button>
-                  <Icon.OrderedList />
-                </button>
-              </Tooltip>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <Tooltip content="인용문 (Ctrl + Q)">
-                <button>
-                  <Icon.Blockquote />
-                </button>
+              <Tooltip content={`링크 (${shortKey} + K)`}>
+                <button className="ql-link" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="링크 (Ctrl + L)">
-                <button onClick={() => setState({ isLinkOpen: true })}>
-                  <Icon.Link />
-                </button>
+              <Tooltip content={`이미지 (${shortKey} + O)`}>
+                <button className="ql-image" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="이미지 (Ctrl + M)">
-                <button onClick={() => setState({ isImageOpen: true })}>
-                  <Icon.Image />
-                </button>
+              <Tooltip content={`동영상 (${shortKey} + P)`}>
+                <button className="ql-video" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content="동영상 (Ctrl + X)">
-                <button onClick={() => setState({ isVideoOpen: true })}>
-                  <Icon.Video />
-                </button>
-              </Tooltip>
-            </li>
-            <li>
-              <Tooltip content="코드 (Ctrl + D)">
-                <button>
-                  <Icon.Code />
-                </button>
-              </Tooltip>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <Tooltip content="도움말 (Ctrl + H)">
-                <button onClick={() => setState({ isHelpOpen: true })}>
-                  <Icon.Help />
-                </button>
+              <Tooltip content={`코드 (${shortKey} + D)`}>
+                <button className="ql-code-block" />
               </Tooltip>
             </li>
           </ul>
@@ -240,15 +278,20 @@ const App: FC = () => {
         <div ref={ref} spellCheck={false} />
       </div>
 
+      <button
+        onClick={() => setState({ isHelpOpen: true })}
+        className="fixed top-2 left-2"
+      >
+        <Icon.Help />
+      </button>
+
       <a
         href="https://github.com/kidow/memo"
-        rel="noreferrer"
+        rel="noreferrer noopener"
         className="fixed top-2 right-2 hidden sm:inline-block"
         target="_blank"
       >
-        <button>
-          <Icon.Github />
-        </button>
+        <Icon.Github />
       </a>
 
       <button

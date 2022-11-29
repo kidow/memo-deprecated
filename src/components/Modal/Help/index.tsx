@@ -6,7 +6,12 @@ export interface Props extends ModalProps {}
 const HelpModal: FC<Props> = ({ isOpen, onClose }) => {
   if (!isOpen) return null
   return (
-    <Modal title="서비스 소개" isOpen={isOpen} onClose={onClose}>
+    <Modal
+      title="서비스 소개"
+      maxWidth="max-w-xl"
+      isOpen={isOpen}
+      onClose={onClose}
+    >
       <Icon.Logo />
       <ul className="mt-4 list-inside list-disc text-sm">
         <li>자유롭게 메모를 저장하고 열람할 수 있는 사이트입니다.</li>
