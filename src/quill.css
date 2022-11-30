@@ -30,6 +30,7 @@
   -moz-tab-size: 4;
   white-space: pre-wrap;
   word-wrap: break-word;
+  min-height: calc(100vh - 40px);
 }
 .ql-editor > * {
   cursor: text;

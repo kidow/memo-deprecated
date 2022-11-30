@@ -16,7 +16,6 @@ icons['italic'] = Icons.Italic
 icons['underline'] = Icons.Underline
 icons['strike'] = Icons.Strike
 icons['clean'] = Icons.Clean
-// icons['color'] = Icons.Color
 icons['list']['ordered'] = Icons.OrderedList
 icons['list']['check'] = Icons.Check
 icons['list']['bullet'] = Icons.Bullet
@@ -97,9 +96,9 @@ const App: FC = () => {
     quill.keyboard.addBinding({ key: '4', shortKey: true }, () =>
       quill.format('header', '4')
     )
-    quill.keyboard.addBinding({ key: 'S', shortKey: true }, (range) => {
+    quill.keyboard.addBinding({ key: 'S', shortKey: true }, (range) =>
       quill.formatText(range, 'strike', true)
-    })
+    )
     quill.keyboard.addBinding(
       { key: 'E', shortKey: true },
       ({ index, length }) => {
@@ -222,13 +221,6 @@ const App: FC = () => {
               </Tooltip>
             </li>
           </ul>
-          {/* <ul className="ql-formats">
-            <li>
-              <Tooltip content="글자색">
-                <button className="ql-color ql-color-picker ql-picker" />
-              </Tooltip>
-            </li>
-          </ul> */}
           <ul className="ql-formats">
             <li>
               <Tooltip content={`글머리 기호 (${shortKey} + 5)`}>
