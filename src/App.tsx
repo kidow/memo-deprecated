@@ -136,7 +136,7 @@ const App: FC = () => {
       quill.focus()
     }
 
-    const onAutoFocus = (e: globalThis.KeyboardEvent) => {
+    document.addEventListener('keydown', (e) => {
       if (!e.target) return
       const target = e.target as HTMLElement
 
@@ -159,9 +159,7 @@ const App: FC = () => {
         selection.removeAllRanges()
         selection.addRange(range)
       }
-    }
-
-    document.addEventListener('keydown', onAutoFocus)
+    })
   }, [])
 
   useEffect(() => {

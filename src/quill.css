@@ -98,9 +98,8 @@
   display: none;
 }
 .ql-snow .ql-tooltip {
-  position: absolute;
   transform: translateY(10px);
-  @apply bg-neutral-50 dark:bg-neutral-900;
+  @apply absolute rounded border bg-neutral-50 py-1 px-2 before:text-sm dark:bg-neutral-900;
 }
 .ql-snow .ql-tooltip a {
   cursor: pointer;
@@ -199,6 +198,7 @@
   border-right: 0px;
   content: '저장';
   padding-right: 0px;
+  @apply text-sm;
 }
 .ql-snow .ql-tooltip[data-mode='link']::before {
   content: '링크 입력:';
