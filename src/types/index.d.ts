@@ -36,3 +36,5 @@ namespace NToast {
     type: NToast.Type
   }
 }
+
+type Theme = 'light' | 'dark'

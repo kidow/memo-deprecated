@@ -26,24 +26,14 @@ icons['image'] = Icons.Image
 icons['video'] = Icons.Video
 icons['code-block'] = Icons.Code
 
-type Theme = 'light' | 'dark'
 interface State {
-  isLinkOpen: boolean
-  isImageOpen: boolean
-  isVideoOpen: boolean
   isHelpOpen: boolean
   theme: Theme
 }
 
 const App: FC = () => {
-  const [
-    { isLinkOpen, isHelpOpen, isImageOpen, isVideoOpen, theme },
-    setState
-  ] = useObjectState<State>({
-    isLinkOpen: false,
+  const [{ isHelpOpen, theme }, setState] = useObjectState<State>({
     isHelpOpen: false,
-    isImageOpen: false,
-    isVideoOpen: false,
     theme: (window.localStorage.getItem('theme') as Theme) || 'light'
   })
   const ref = useRef<HTMLDivElement>(null)
@@ -58,6 +48,20 @@ const App: FC = () => {
       window.localStorage.setItem('theme', 'light')
       document.getElementsByTagName('html')[0].classList.remove('dark')
       setState({ theme: 'light' })
+    }
+  }
+
+  const onThemeKeyChange = (e: globalThis.KeyboardEvent) => {
+    if (e.metaKey && e.code === 'KeyM') {
+      e.preventDefault()
+      onThemeChange()
+    }
+  }
+
+  const onHelpChange = (e: globalThis.KeyboardEvent) => {
+    if (e.metaKey && e.code === 'KeyH') {
+      e.preventDefault()
+      setState({ isHelpOpen: !isHelpOpen })
     }
   }
 
@@ -163,6 +167,11 @@ const App: FC = () => {
   }, [])
 
   useEffect(() => {
+    document.addEventListener('keydown', onHelpChange)
+    return () => document.removeEventListener('keydown', onHelpChange)
+  }, [isHelpOpen])
+
+  useEffect(() => {
     const currentScript = document.querySelector(
       'script[plugin-key="fa46598f-aa5e-46fc-be63-2d3e339383c5"]'
     )
@@ -179,6 +188,8 @@ const App: FC = () => {
       theme === 'light' ? '#d4d4d4' : '#262626'
     )
     document.head.insertAdjacentElement('beforeend', script)
+    document.addEventListener('keydown', onThemeKeyChange)
+    return () => document.removeEventListener('keydown', onThemeKeyChange)
   }, [theme])
   return (
     <>
@@ -289,12 +300,13 @@ const App: FC = () => {
         <div ref={ref} spellCheck={false} />
       </div>
 
-      <button
-        onClick={() => setState({ isHelpOpen: true })}
-        className="fixed top-2 left-2"
-      >
-        <Icon.Help />
-      </button>
+      <div className="fixed top-2 left-2">
+        <Tooltip content={`${shortKey} + H`} position="right">
+          <button onClick={() => setState({ isHelpOpen: true })}>
+            <Icon.Help />
+          </button>
+        </Tooltip>
+      </div>
 
       <a
         href="https://github.com/kidow/memo"
@@ -304,26 +316,14 @@ const App: FC = () => {
       >
         <Icon.Github />
       </a>
+      <div className="fixed bottom-4 right-4 duration-150">
+        <Tooltip content={`${shortKey} + M`} position="top">
+          <button onClick={onThemeChange}>
+            {theme === 'dark' ? <Icon.Moon /> : <Icon.Light />}
+          </button>
+        </Tooltip>
+      </div>
 
-      <button
-        className="fixed bottom-4 right-4 duration-150"
-        onClick={onThemeChange}
-      >
-        {theme === 'dark' ? <Icon.Moon /> : <Icon.Light />}
-      </button>
-
-      <Modal.Link
-        isOpen={isLinkOpen}
-        onClose={() => setState({ isLinkOpen: false })}
-      />
-      <Modal.Image
-        isOpen={isImageOpen}
-        onClose={() => setState({ isImageOpen: false })}
-      />
-      <Modal.Video
-        isOpen={isVideoOpen}
-        onClose={() => setState({ isVideoOpen: false })}
-      />
       <Modal.Help
         isOpen={isHelpOpen}
         onClose={() => setState({ isHelpOpen: false })}
