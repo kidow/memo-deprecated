@@ -1,6 +1,7 @@
 import type { FC } from 'react'
-import { Checkbox, Input, Modal, Button } from 'components'
+import { Checkbox, Input, Button } from 'components'
 import { useObjectState } from 'services'
+import { Modal } from 'containers'
 
 export interface Props extends ModalProps {}
 interface State {

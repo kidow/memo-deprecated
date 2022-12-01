@@ -1,5 +1,6 @@
 import type { FC } from 'react'
-import { Modal, Icon } from 'components'
+import { Modal } from 'containers'
+import { Icon } from 'components'
 
 export interface Props extends ModalProps {}
 

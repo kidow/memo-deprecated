@@ -1,18 +1,19 @@
 import type { FC } from 'react'
-import { Input, Modal, Button } from 'components'
+import { Input, Button } from 'components'
 import { useObjectState } from 'services'
+import { Modal } from 'containers'
 
 export interface Props extends ModalProps {}
 interface State {
   url: string
 }
 
-const VideoModal: FC<Props> = ({ isOpen, onClose }) => {
+const ImageModal: FC<Props> = ({ isOpen, onClose }) => {
   if (!isOpen) return null
   const [{ url }, , onChange] = useObjectState<State>({ url: '' })
   return (
     <Modal
-      title="동영상 삽입"
+      title="이미지 삽입"
       isOpen={isOpen}
       onClose={onClose}
       footer={
@@ -21,13 +22,13 @@ const VideoModal: FC<Props> = ({ isOpen, onClose }) => {
         </div>
       }
     >
-      <div className="mt-4">
+      <div className="space-y-8">
+        <input className="cursor-pointer" type="file" accept="image/*" />
         <Input
           value={url}
           name="url"
           onChange={onChange}
-          placeholder="동영상 URL"
-          type="url"
+          placeholder="사진 URL"
           autoFocus
         />
       </div>
@@ -35,4 +36,4 @@ const VideoModal: FC<Props> = ({ isOpen, onClose }) => {
   )
 }
 
-export default VideoModal
+export default ImageModal

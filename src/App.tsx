@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react'
 import type { FC } from 'react'
-import { Icon, Modal, Tooltip } from 'components'
-import { Icons, useObjectState } from 'services'
+import { Icon, Tooltip } from 'components'
+import { Icons, toast, useObjectState } from 'services'
 import Quill from 'quill'
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
 import { useMemo } from 'react'
+import { Modal, Toast } from 'containers'
 
 const icons = Quill.import('ui/icons')
 icons['header']['1'] = Icons.Heading1
@@ -117,14 +118,8 @@ const App: FC = () => {
     quill.keyboard.addBinding({ key: 'Y', shortKey: true }, () =>
       quill.format('blockquote', true)
     )
-    quill.keyboard.addBinding({ key: 'O', shortKey: true }, () => {
-      console.log('1', 1)
-    })
-    quill.keyboard.addBinding({ key: 'P', shortKey: true }, () => {
-      console.log('2', 2)
-    })
     quill.keyboard.addBinding({ key: 'D', shortKey: true }, () => {
-      console.log('3', 3)
+      quill.format('code-block', true)
     })
 
     const content = window.localStorage.getItem('content')
@@ -265,16 +260,23 @@ const App: FC = () => {
             </li>
             <li>
               <Tooltip content={`링크 (${shortKey} + K)`}>
-                <button className="ql-link" />
+                <button
+                  className="ql-link"
+                  onClick={() => {
+                    const selection = window.getSelection()
+                    if (selection?.type !== 'Range')
+                      toast.info('텍스트를 드래그하세요.')
+                  }}
+                />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content={`이미지 (${shortKey} + O)`}>
+              <Tooltip content="이미지">
                 <button className="ql-image" />
               </Tooltip>
             </li>
             <li>
-              <Tooltip content={`동영상 (${shortKey} + P)`}>
+              <Tooltip content="동영상">
                 <button className="ql-video" />
               </Tooltip>
             </li>
@@ -328,6 +330,7 @@ const App: FC = () => {
         isOpen={isHelpOpen}
         onClose={() => setState({ isHelpOpen: false })}
       />
+      <Toast />
     </>
   )
 }

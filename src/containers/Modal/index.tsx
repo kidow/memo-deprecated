@@ -12,14 +12,8 @@ import HelpModal from './Help'
 interface Props extends ModalProps {
   children: ReactNode
 }
-interface IModal extends FC<Props> {
-  Link: typeof LinkModal
-  Image: typeof ImageModal
-  Video: typeof VideoModal
-  Help: typeof HelpModal
-}
 
-const Modal: IModal = ({
+const Modal: FC<Props> = ({
   isOpen,
   onClose,
   children,
@@ -104,9 +98,9 @@ const Modal: IModal = ({
   )
 }
 
-Modal.Link = LinkModal
-Modal.Image = ImageModal
-Modal.Video = VideoModal
-Modal.Help = HelpModal
-
-export default Modal
+export default Object.assign(Modal, {
+  Link: LinkModal,
+  Image: ImageModal,
+  Video: VideoModal,
+  Help: HelpModal
+})
