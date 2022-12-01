@@ -140,7 +140,6 @@
 }
 .ql-snow .ql-editor code,
 .ql-snow .ql-editor pre {
-  background-color: #f0f0f0;
   border-radius: 3px;
 }
 .ql-snow .ql-editor pre {
@@ -153,7 +152,7 @@
   font-size: 85%;
   padding: 2px 4px;
 }
-.ql-snow .ql-editor pre.ql-syntax {
+.ql-snow .ql-editor pre {
   background-color: #23241f;
   color: #f8f8f2;
   overflow: visible;
