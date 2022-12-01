@@ -168,6 +168,25 @@ const App: FC = () => {
 
     document.addEventListener('keydown', onAutoFocus)
   }, [])
+
+  useEffect(() => {
+    const currentScript = document.querySelector(
+      'script[plugin-key="fa46598f-aa5e-46fc-be63-2d3e339383c5"]'
+    )
+    if (currentScript) {
+      currentScript.remove()
+      document.querySelector('.fb-plugin')?.remove()
+    }
+    let script = document.createElement('script')
+    script.src = 'https://cdn.feedbank.app/plugin.js'
+    script.defer = true
+    script.setAttribute('plugin-key', 'fa46598f-aa5e-46fc-be63-2d3e339383c5')
+    script.setAttribute(
+      'data-fb-button-color',
+      theme === 'light' ? '#d4d4d4' : '#262626'
+    )
+    document.head.insertAdjacentElement('beforeend', script)
+  }, [theme])
   return (
     <>
       <div className="container mx-auto max-w-screen-md">
