@@ -140,30 +140,32 @@ const App: FC = () => {
       quill.focus()
     }
 
-    document.addEventListener('keydown', (e) => {
-      if (!e.target) return
-      const target = e.target as HTMLElement
+    // document.addEventListener('keydown', (e) => {
+    //   if (!e.target) return
+    //   const target = e.target as HTMLElement
+    //   if (target?.className.indexOf('ql-editor') !== -1) return
 
-      const tooltip = Array.from(ref.current!.children).find(
-        (item) => item.className.indexOf('ql-tooltip') !== -1
-      )
+    //   const tooltip = Array.from(ref.current!.children).find(
+    //     (item) => item.className.indexOf('ql-tooltip') !== -1
+    //   )
 
-      if (
-        target?.className !== 'ql-editor' &&
-        Array.from(document.body.childNodes).findIndex(
-          (item: any) => item.role === 'dialog'
-        ) === -1 &&
-        tooltip?.className.indexOf('ql-hidden') !== -1
-      ) {
-        const selection = window.getSelection()
-        if (!selection) return
-        const range = document.createRange()
-        range.selectNodeContents(quill.root)
-        range.collapse(false)
-        selection.removeAllRanges()
-        selection.addRange(range)
-      }
-    })
+    //   if (
+    //     target?.className.indexOf('ql-editor') === -1 &&
+    //     Array.from(document.body.childNodes).findIndex(
+    //       (item: any) => item.role === 'dialog'
+    //     ) === -1 &&
+    //     tooltip?.className.indexOf('ql-hidden') !== -1
+    //   ) {
+    //     const selection = window.getSelection()
+    //     if (!selection) return
+    //     console.log('1', 1)
+    //     const range = document.createRange()
+    //     range.selectNodeContents(quill.root)
+    //     range.collapse(false)
+    //     selection.removeAllRanges()
+    //     selection.addRange(range)
+    //   }
+    // })
   }, [])
 
   useEffect(() => {
