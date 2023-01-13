@@ -5,7 +5,7 @@
 > - [components.kidow.me](https://github.com/kidow/components)
 > - [files.kidow.me](https://github.com/kidow/files)
 > - [memo.kidow.me](https://github.com/kidow/memo)
-> - [opengraph.kidow.me](https://github.com/kidow/opengraph)
+> - [og.kidow.me](https://github.com/kidow/og)
 > - [resume.kidow.me](https://github.com/kidow/resume)
 
 ---
