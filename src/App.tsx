@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import type { FC } from 'react'
 import { Icon, Tooltip } from 'components'
 import { Icons, toast, useObjectState } from 'services'
@@ -73,11 +73,13 @@ const App: FC = () => {
     []
   )
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (window.localStorage.getItem('theme') === 'dark') {
       document.getElementsByTagName('html')[0].classList.add('dark')
     }
+  }, [])
 
+  useEffect(() => {
     if (!ref.current) return
     const quill = new Quill(ref.current, {
       theme: 'snow',

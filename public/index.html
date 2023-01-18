@@ -2,6 +2,12 @@
 <html lang="ko">
   <head>
     <script>
+      document.documentElement.setAttribute(
+        'data-theme',
+        localStorage.getItem('theme')
+      )
+    </script>
+    <script>
       ;(function (w, d, s, l, i) {
         w[l] = w[l] || []
         w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
