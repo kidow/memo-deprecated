@@ -177,7 +177,7 @@ const App: FC = () => {
 
   useEffect(() => {
     const currentScript = document.querySelector(
-      'script[plugin-key="fa46598f-aa5e-46fc-be63-2d3e339383c5"]'
+      'script[plugin-key="c27288bc-c289-459e-93dc-f36b18fd7263"]'
     )
     if (currentScript) {
       currentScript.remove()
@@ -186,7 +186,7 @@ const App: FC = () => {
     let script = document.createElement('script')
     script.src = 'https://cdn.feedbank.app/plugin.js'
     script.defer = true
-    script.setAttribute('plugin-key', 'fa46598f-aa5e-46fc-be63-2d3e339383c5')
+    script.setAttribute('plugin-key', 'c27288bc-c289-459e-93dc-f36b18fd7263')
     script.setAttribute(
       'data-fb-button-color',
       theme === 'light' ? '#d4d4d4' : '#262626'
