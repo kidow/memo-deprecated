@@ -176,22 +176,6 @@ const App: FC = () => {
   }, [isHelpOpen])
 
   useEffect(() => {
-    const currentScript = document.querySelector(
-      'script[plugin-key="c27288bc-c289-459e-93dc-f36b18fd7263"]'
-    )
-    if (currentScript) {
-      currentScript.remove()
-      document.querySelector('.fb-plugin')?.remove()
-    }
-    let script = document.createElement('script')
-    script.src = 'https://cdn.feedbank.app/plugin.js'
-    script.defer = true
-    script.setAttribute('plugin-key', 'c27288bc-c289-459e-93dc-f36b18fd7263')
-    script.setAttribute(
-      'data-fb-button-color',
-      theme === 'light' ? '#d4d4d4' : '#262626'
-    )
-    document.head.insertAdjacentElement('beforeend', script)
     document.addEventListener('keydown', onThemeKeyChange)
     return () => document.removeEventListener('keydown', onThemeKeyChange)
   }, [theme])
@@ -333,6 +317,18 @@ const App: FC = () => {
         onClose={() => setState({ isHelpOpen: false })}
       />
       <Toast />
+      <div className="fixed top-5 left-0 z-50 flex w-full animate-fade-up justify-center">
+        <div className="animate-bounce rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 py-2 px-4">
+          <a
+            href="https://kidow.me/memo"
+            rel="noreferrer"
+            target="_blank"
+            className="font-semibold"
+          >
+            새 프로젝트로 이전하였습니다. 클릭 시 이동
+          </a>
+        </div>
+      </div>
     </>
   )
 }

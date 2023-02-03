@@ -25,3 +25,7 @@
 - Typescript
 - Quill
 - classnames
+
+# 새 블로그를 만들었습니다.
+
+이 프로젝트는 더이상 운영되지 않습니다. [새 블로그](https://kidow.me)
